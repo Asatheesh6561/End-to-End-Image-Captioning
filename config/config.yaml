@@ -1,0 +1,14 @@
+artifacts_root: artifacts
+
+data_processing:
+  root_dir: artifacts/data_processing
+  dataset_name: 'adityajn105/flickr8k'
+  local_data_file: artifacts/data_processing/captions.txt
+  unzip_dir: 'artifacts/data_processing'
+
+dataset:
+  data_path: artifacts/data_processing
+  limit: -1
+
+train:
+  model_save: artifacts/train
