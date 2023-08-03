@@ -5,11 +5,11 @@ lr_drop: 20
 start_epoch: 0
 weight_decay: 0.0001
 backbone: 'resnet101'
-position_embedding: 'learned'
+position_embedding: 'sine'
 dilation: True
 batch_size: 32
 num_workers: 1
-checkpoint: 'bartifacts/train/Model.pth'
+checkpoint: 'artifacts/train/model_9.pth'
 clip_max_norm: 0.1
 hidden_dim: 256
 pad_token_id: 0

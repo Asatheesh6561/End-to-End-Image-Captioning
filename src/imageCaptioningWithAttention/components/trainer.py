@@ -1,7 +1,6 @@
 import torch
 from torch.utils.data import *
 from imageCaptioningWithAttention.components.utils import *
-from nltk.translate.bleu_score import corpus_bleu
 from tqdm import tqdm
 import os
 from imageCaptioningWithAttention.components.models import *
@@ -21,6 +20,8 @@ class Trainer():
         self.device = 'cuda:0' if torch.cuda.is_available() else 'cpu' 
 
     def train_model(self, model, criterion, model_save_dir):
+        model = model.to(self.device)
+        print(f'Device: {self.device}')
         n_parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
         print(f'Number of parameters: {n_parameters}')
         param_dicts = [
@@ -54,8 +55,9 @@ class Trainer():
                 'lr_scheduler': lr_scheduler.state_dict(),
                 'epoch': epoch
             }, os.path.join(model_save_dir, f'model_{epoch}.pth'))
-            validation_loss = self.evaluate(model, criterion, data_loader_val, self.device)
-            print(f"Validation Loss: {validation_loss}")
+            if (epoch+1) % 10 == 0:
+                validation_loss = self.evaluate(model, criterion, data_loader_val, self.device)
+                print(f"Validation Loss: {validation_loss}")
 
     def train_one_epoch(self, model, criterion, data_loader, optimizer, device, max_norm):
         model.train()
@@ -69,7 +71,6 @@ class Trainer():
                 outputs = model(samples, captions[:, :-1], caption_masks[:, :-1])
                 loss = criterion(outputs.permute(0, 2, 1), captions[:, 1:].long())
                 loss_value = loss.item()
-                print(loss_value)
                 epoch_loss += loss_value
 
                 optimizer.zero_grad()
@@ -87,17 +88,16 @@ class Trainer():
         validation_loss = 0.0
         total = len(data_loader)
 
-        with tqdm.tqdm(total=total) as pbar:
+        with tqdm(total=total) as pbar:
             for images, masks, caps, cap_masks in data_loader:
                 samples = NestedTensor(images, masks).to(device)
                 caps = caps.to(device)
                 cap_masks = cap_masks.to(device)
 
                 outputs = model(samples, caps[:, :-1], cap_masks[:, :-1])
-                loss = criterion(outputs.permute(0, 2, 1), caps[:, 1:])
+                loss = criterion(outputs.permute(0, 2, 1), caps[:, 1:].long())
 
                 validation_loss += loss.item()
-                print(validation_loss.item())
                 pbar.update(1)
             
         return validation_loss / total
@@ -111,7 +111,7 @@ class Trainer():
 
         return caption_template, mask_template
         
-    def evaluate(self, model, image, caption, caption_mask, max_length):
+    def evaluate_caption(self, model, image, caption, caption_mask, max_length):
         model.eval()
         for i in range(max_length - 1):
             predictions = model(image, caption, caption_mask)

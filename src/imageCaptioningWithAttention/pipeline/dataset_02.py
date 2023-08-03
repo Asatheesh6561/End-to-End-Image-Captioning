@@ -16,7 +16,7 @@ class DatasetPipeline():
         if image.mode != 'RGB':
             image = image.convert("RGB")
 
-        shape = np.array(image.size, dtype=np.float)
+        shape = np.array(image.size, dtype=np.float32)
         long_dim = max(shape)
         scale = 299 / long_dim
 

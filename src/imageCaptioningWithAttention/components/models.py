@@ -45,15 +45,16 @@ class PositionEmbeddingSine(nn.Module):
         return pos
 
 class DecoderEmbeddings(nn.Module):
-    def __init__(self, vocab_size, hidden_dim, pad_token_id, max_length, dropout):
+    def __init__(self, vocab_size, hidden_dim, pad_token_id, max_length, dropout, device):
         super(DecoderEmbeddings, self).__init__()
         self.word_embeddings = nn.Embedding(vocab_size, hidden_dim, padding_idx=pad_token_id)
         self.position_embeddings = nn.Embedding(max_length, hidden_dim)
         self.LayerNorm = nn.LayerNorm(hidden_dim, eps=1e-12)
         self.dropout = nn.Dropout(dropout)
+        self.device = device
 
     def forward(self, x):
-        position_ids = torch.arange(x.size(1), dtype=torch.long).unsqueeze(0).expand(x.size())
+        position_ids = torch.arange(x.size(1), dtype=torch.long).unsqueeze(0).expand(x.size()).to(self.device)
         input_embeds = self.word_embeddings(x)
         position_embeds = self.position_embeddings(position_ids)
         embedding = self.dropout(self.LayerNorm(input_embeds + position_embeds))
@@ -238,7 +239,7 @@ class TransformerEncoder(nn.Module):
 class Transformer(nn.Module):
 
     def __init__(self, vocab_size, hidden_dim, pad_token_id, max_length, d_model, nhead, num_encoder_layers,
-                 num_decoder_layers, dim_feedforward, dropout,
+                 num_decoder_layers, dim_feedforward, dropout, device,
                  activation="relu", normalize_before=False,
                  return_intermediate_dec=False):
         super().__init__()
@@ -249,7 +250,7 @@ class Transformer(nn.Module):
         self.encoder = TransformerEncoder(
             encoder_layer, num_encoder_layers, encoder_norm)
 
-        self.embeddings = DecoderEmbeddings(vocab_size, hidden_dim, pad_token_id, max_length, dropout)
+        self.embeddings = DecoderEmbeddings(vocab_size, hidden_dim, pad_token_id, max_length, dropout, device)
         decoder_layer = TransformerDecoderLayer(d_model, nhead, dim_feedforward,
                                                 dropout, activation, normalize_before)
         decoder_norm = nn.LayerNorm(d_model)
@@ -423,9 +424,9 @@ def build_backbone(hidden_dim, lr_backbone, backbone_name, dilation):
     model.num_channels = backbone.num_channels
     return model
 
-def build_model(vocab_size, hidden_dim, pad_token_id, max_length, nhead, num_encoder_layers, num_decoder_layers, dim_feedforward, dropout, lr_backbone, backbone_name, dilation, pre_norm):
+def build_model(vocab_size, hidden_dim, pad_token_id, max_length, nhead, num_encoder_layers, num_decoder_layers, dim_feedforward, dropout, lr_backbone, backbone_name, dilation, pre_norm, device):
     backbone = build_backbone(hidden_dim, lr_backbone, backbone_name, dilation)
-    transformer = Transformer(vocab_size, hidden_dim, pad_token_id, max_length, hidden_dim, nhead, num_encoder_layers, num_decoder_layers, dim_feedforward, dropout, normalize_before=pre_norm)
+    transformer = Transformer(vocab_size, hidden_dim, pad_token_id, max_length, hidden_dim, nhead, num_encoder_layers, num_decoder_layers, dim_feedforward, dropout, device, normalize_before=pre_norm)
     model = Caption(backbone, transformer, hidden_dim, vocab_size)
     criterion = nn.CrossEntropyLoss()
     return model, criterion

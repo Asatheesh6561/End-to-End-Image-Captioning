@@ -21,7 +21,7 @@ class DataProcessingPipeline():
 
     def load_to_database(self, table_name):
         number_of_items = self.server.read_query(self.db_connection, f'SELECT COUNT(*) FROM {table_name}')
-        if number_of_items[0][0] == 0:
+        if number_of_items == None or number_of_items[0][0] == 0:
             create_image_caption_table = f"""
                 CREATE TABLE {table_name} (
                     image_id INT PRIMARY KEY,
