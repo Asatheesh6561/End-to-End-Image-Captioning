@@ -1,7 +1,7 @@
-from src.imageCaptioningWithAttention import logger
-from src.imageCaptioningWithAttention.pipeline.data_processing_01 import DataProcessingPipeline
-from src.imageCaptioningWithAttention.pipeline.dataset_02 import DatasetPipeline
-from src.imageCaptioningWithAttention.pipeline.train_03 import TrainPipeline
+from src.imageCaptioning import logger
+from src.imageCaptioning.pipeline.data_processing_01 import DataProcessingPipeline
+from src.imageCaptioning.pipeline.dataset_02 import DatasetPipeline
+from src.imageCaptioning.pipeline.train_03 import TrainPipeline
 import os
 
 def main():
@@ -26,8 +26,7 @@ def main():
 
         logger.info(f'Stage {STAGE_NAME} started')
         train_pipeline = TrainPipeline(train_dataset, val_dataset)
-        train_pipeline.train_model()
-        output = train_pipeline.predict(os.path.join(data_processing_pipeline.data_processing_config.root_dir, 'Images/10815824_2997e03d76.jpg'), 'Model.pth')
+        output = train_pipeline.predict(os.path.join(data_processing_pipeline.data_processing_config.root_dir, 'Images/12830823_87d2654e31.jpg'), 'model_20.pth')
         print(output)
     except Exception as e:
         logger.exception(e)

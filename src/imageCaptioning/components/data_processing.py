@@ -1,6 +1,6 @@
 import kaggle
-from imageCaptioningWithAttention import logger
-from imageCaptioningWithAttention.utils.common import get_size
+from imageCaptioning import logger
+from imageCaptioning.utils.common import get_size
 import mysql.connector
 from mysql.connector import Error
 from pathlib import Path

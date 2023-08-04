@@ -1,7 +1,7 @@
 import os
 from box.exceptions import BoxValueError
 import yaml
-from imageCaptioningWithAttention import logger
+from imageCaptioning import logger
 import json
 import joblib
 from box import ConfigBox

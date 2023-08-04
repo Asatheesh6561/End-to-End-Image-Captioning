@@ -2,7 +2,7 @@ import os
 from torch.utils.data import Dataset
 from transformers import BertTokenizer
 from PIL import Image
-from imageCaptioningWithAttention.components.utils import *
+from imageCaptioning.components.utils import *
 import numpy as np
 class ImageCaptionDataset(Dataset):
     def __init__(self, data_path, data, max_length, limit, transform, mode):

@@ -1,6 +1,6 @@
-from imageCaptioningWithAttention.config.configuration import ConfigurationManager
-from imageCaptioningWithAttention.components.dataset import ImageCaptionDataset
-from imageCaptioningWithAttention.constants import *
+from imageCaptioning.config.configuration import ConfigurationManager
+from imageCaptioning.components.dataset import ImageCaptionDataset
+from imageCaptioning.constants import *
 from torchvision import transforms
 import numpy as np
 class DatasetPipeline():

@@ -1,16 +1,18 @@
-from imageCaptioningWithAttention.config.configuration import ConfigurationManager
-from imageCaptioningWithAttention.components.data_processing import DataProcessing, MySQLServer
-from imageCaptioningWithAttention.constants import *
-from imageCaptioningWithAttention import logger
-import mysql.connector
+from imageCaptioning.config.configuration import ConfigurationManager
+from imageCaptioning.components.data_processing import DataProcessing, MySQLServer
+from imageCaptioning.constants import *
+from imageCaptioning import logger
+import os
 from mysql.connector import Error
 
 class DataProcessingPipeline():
     def __init__(self):
+        password = os.environ.get('MY_PASSWORD')
+        print(password)
         self.config = ConfigurationManager(CONFIG_FILE_PATH, PARAMS_FILE_PATH)
         self.data_processing_config = self.config.get_data_processing_config()
         self.data_processing = DataProcessing(self.data_processing_config)
-        self.server = MySQLServer('localhost', 'root', 'Yesminister22!', 'image_captioning')
+        self.server = MySQLServer('localhost', 'root', password, 'image_captioning')
         self.db_connection = self.server.db_connection()
         
     def get_data(self):

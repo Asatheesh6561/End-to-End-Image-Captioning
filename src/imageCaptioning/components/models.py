@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from imageCaptioningWithAttention.components.utils import * 
+from imageCaptioning.components.utils import * 
 import torchvision
 import copy
 import torch.nn.functional as F
@@ -345,7 +345,7 @@ class BackboneBase(nn.Module):
         for name, x in xs.items():
             m = tensor_list.mask
             assert m is not None
-            mask = F.interpolate(m[None].squeeze(0).float(), size=x.shape[-2:]).to(torch.bool).squeeze(1)
+            mask = F.interpolate(m[None].float(), size=x.shape[-2:]).to(torch.bool)[0]
             out[name] = NestedTensor(x, mask)
         return out
 

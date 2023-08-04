@@ -1,6 +1,6 @@
-from imageCaptioningWithAttention.constants import *
-from imageCaptioningWithAttention.utils.common import read_yaml, create_directories
-from imageCaptioningWithAttention.entity.config_entity import DataProcessingConfig, DatasetConfig, TrainConfig
+from imageCaptioning.constants import *
+from imageCaptioning.utils.common import read_yaml, create_directories
+from imageCaptioning.entity.config_entity import DataProcessingConfig, DatasetConfig, TrainConfig
 class ConfigurationManager():
     def __init__(self, config_file_path, params_file_path):
         super(ConfigurationManager, self).__init__()

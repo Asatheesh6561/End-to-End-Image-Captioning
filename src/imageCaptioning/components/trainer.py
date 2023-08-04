@@ -1,9 +1,9 @@
 import torch
 from torch.utils.data import *
-from imageCaptioningWithAttention.components.utils import *
+from imageCaptioning.components.utils import *
 from tqdm import tqdm
 import os
-from imageCaptioningWithAttention.components.models import *
+from imageCaptioning.components.models import *
 class Trainer():
     def __init__(self, train_dataset, val_dataset, learning_rate, lr_backbone, weight_decay, lr_drop, batch_size, num_workers, num_epochs, checkpoint, clip_max_norm):
         self.train_dataset = train_dataset
@@ -112,8 +112,10 @@ class Trainer():
         return caption_template, mask_template
         
     def evaluate_caption(self, model, image, caption, caption_mask, max_length):
+        model = model.to(self.device)
         model.eval()
         for i in range(max_length - 1):
+            image, caption, caption_mask = image.to(self.device), caption.to(self.device), caption_mask.to(self.device)
             predictions = model(image, caption, caption_mask)
             predictions = predictions[:, i, :]
             predicted_id = torch.argmax(predictions, axis=-1)

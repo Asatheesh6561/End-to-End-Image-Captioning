@@ -19,4 +19,5 @@ mysql-connector-python
 torchtext
 torchvision
 transformers
+dvc
 -e .

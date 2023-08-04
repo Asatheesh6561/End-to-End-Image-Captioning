@@ -1,7 +1,7 @@
-from imageCaptioningWithAttention.config.configuration import ConfigurationManager
-from imageCaptioningWithAttention.components.trainer import Trainer
-from imageCaptioningWithAttention.components.models import *
-from imageCaptioningWithAttention.constants import *
+from imageCaptioning.config.configuration import ConfigurationManager
+from imageCaptioning.components.trainer import Trainer
+from imageCaptioning.components.models import *
+from imageCaptioning.constants import *
 from PIL import Image
 import os
 from transformers import BertTokenizer
