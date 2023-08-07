@@ -25,15 +25,18 @@ Welcome to the Image Captioning Project! This project utilizes deep learning tec
    pip install -r requirements.txt
    ```
 
-##Usage
-Run the prediction program  on your local machine hosted by Flask using this command:
+## Usage
+1. Train the CNN-Transformer model by running this command:
+
+```python
+python main.py
+```
+
+2. Run the prediction program  on your local machine hosted by Flask using this command:
 
 ```python
 python app.py
 ```
 
-Train the CNN-Transformer model by running this command:
-```python
-python main.py
-```
+
 
