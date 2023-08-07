@@ -1,5 +1,5 @@
 # Image-Captioning-Project
-Welcome to the Image Captioning Project! This project utilizes deep learning techniques to automatically generate descriptive captions for images. It combines computer vision and natural language processing to provide meaningful textual descriptions for a wide range of images.
+This project utilizes deep learning techniques to automatically generate descriptive captions for images. It also contains a self-hosted web server through Flask for users to upload their own images.
 
 ## Features
 
