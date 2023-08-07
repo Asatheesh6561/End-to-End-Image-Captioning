@@ -31,4 +31,4 @@ def test():
     return render_template('test.html', caption=caption)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=80)

@@ -26,8 +26,7 @@ def main():
 
         logger.info(f'Stage {STAGE_NAME} started')
         train_pipeline = TrainPipeline(train_dataset, val_dataset)
-        output = train_pipeline.predict(os.path.join(data_processing_pipeline.data_processing_config.root_dir, 'Images/12830823_87d2654e31.jpg'), 'model_20.pth')
-        print(output)
+        train_pipeline.train_model()
     except Exception as e:
         logger.exception(e)
         raise(e)
