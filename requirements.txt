@@ -19,5 +19,5 @@ mysql-connector-python
 torchtext
 torchvision
 transformers
-dvc
+werkzeug
 -e .
