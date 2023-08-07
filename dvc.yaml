@@ -1,9 +1,0 @@
-stages:
-  data_processing:
-    cmd: python src/imageCaptioning/pipeline/data_processing_01.py
-    deps:
-      - src/imageCpationing/pipeline/data_processing_01.py
-      - config/config.yanl
-    outs:
-      - artifacts/data_processing/Images
-      - artifacts/data_processing/captions.txt

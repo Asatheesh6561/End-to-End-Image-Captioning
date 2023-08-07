@@ -4,6 +4,7 @@ from transformers import BertTokenizer
 from PIL import Image
 from imageCaptioning.components.utils import *
 import numpy as np
+from PIL import Image
 class ImageCaptionDataset(Dataset):
     def __init__(self, data_path, data, max_length, limit, transform, mode):
         super(ImageCaptionDataset, self).__init__()

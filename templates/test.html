@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Captioning App</title>
+</head>
+<body>
+    <h1>Image Captioning App</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*">
+        <button type="submit">Generate Caption</button>
+    </form>
+
+    <hr>
+
+    <h2>Generated Caption:</h2>
+    <textarea rows="4" cols="50">{{ caption }}</textarea>
+</body>
+</html>
