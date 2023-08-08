@@ -27,7 +27,7 @@ def test():
             if image and allowed_file(image.filename):
                 filename = secure_filename(image.filename)
                 image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                caption = train_pipeline.predict(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'model-20.pth')
+                caption = train_pipeline.predict(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'model_20.pth')
     return render_template('index.html', caption=caption)
 
 if __name__ == '__main__':
